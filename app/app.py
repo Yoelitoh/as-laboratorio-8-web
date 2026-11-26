@@ -19,4 +19,4 @@ def get_hit_count():
 @app.route('/')
 def hello():
     count = get_hit_count()
-    return '¡Adiós! Este sitio se ha visitado {} veces.\n'.format(count)
+    return '¡Hola pruebas de new branch! Este sitio se ha visitado {} veces.\n'.format(count)
