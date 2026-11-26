@@ -38,6 +38,6 @@ jobs:
           location: europe-west1
 
       - name: Desplegar en Kubernetes
-        run: kubectl apply -f k8s/
+        run: |
           kubectl apply -f k8s/
           kubectl rollout restart deployment web
