@@ -1,0 +1,41 @@
+name: Despliegue
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Login en Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Construir imagen
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/as-laboratorio-8-web:latest ./app
+
+      - name: Subir imagen
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/as-laboratorio-8-web:latest
+
+      - name: Login en Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: <tu-project-id>
+          workload_identity_provider: projects/994635682866/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github-actions@as2027yj.iam.gserviceaccount.com
+
+      - name: Credenciales de GKE
+        uses: google-github-actions/get-gke-credentials@v3
+        with:
+          cluster_name: as-cluster
+          location: europe-west1
+
+      - name: Desplegar en Kubernetes
+        run: kubectl apply -f k8s/
