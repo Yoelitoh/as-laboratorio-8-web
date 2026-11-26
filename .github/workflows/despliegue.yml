@@ -36,6 +36,7 @@ jobs:
         with:
           cluster_name: as-cluster
           location: europe-west1
+          project_id: as2027yj
 
       - name: Desplegar en Kubernetes
         run: |
