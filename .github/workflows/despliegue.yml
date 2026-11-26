@@ -39,3 +39,5 @@ jobs:
 
       - name: Desplegar en Kubernetes
         run: kubectl apply -f k8s/
+          kubectl apply -f k8s/
+          kubectl rollout restart deployment web

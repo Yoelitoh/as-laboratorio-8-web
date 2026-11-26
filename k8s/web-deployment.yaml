@@ -15,5 +15,6 @@ spec:
       containers:
         - name: web
           image: yoelclase/as-laboratorio-8-web
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
