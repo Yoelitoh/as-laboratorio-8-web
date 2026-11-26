@@ -1,3 +1,4 @@
+"""Aplicacion web con contador de visitas usando Flask y Redis."""
 import time
 import redis
 from flask import Flask
@@ -5,7 +6,9 @@ from flask import Flask
 app = Flask(__name__)
 cache = redis.Redis(host='redis', port=6379)
 
+
 def get_hit_count():
+    """Incrementa y devuelve el contador de visitas."""
     retries = 5
     while True:
         try:
@@ -16,7 +19,9 @@ def get_hit_count():
             retries -= 1
             time.sleep(0.5)
 
+
 @app.route('/')
 def hello():
+    """Pagina principal con el contador."""
     count = get_hit_count()
-    return '¡Hola pruebas de new branch! Este sitio se ha visitado {} veces.\n'.format(count)
+    return f'Hola desde la rama nueva! Visitas: {count}\n'
